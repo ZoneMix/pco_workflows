@@ -3,7 +3,7 @@ from pco_workflows.workflows.parse_authorized_pickups import parse_authorized_pi
 from pco_workflows.workflows.create_csv import create_import_csv
 from pco_workflows.workflows.create_episode import create_publishing_episode
 from pco_workflows.workflows.delete_all import delete_all_people
-from pco_workflows.workflows.delete_fields import delete_field_data
+from pco_workflows.workflows.delete_field import delete_field_data
 from pco_workflows.workflows.get_field_data import get_field_definition_data
 from pco_workflows.workflows.list_fields import list_field_definitions
 
@@ -51,9 +51,9 @@ def cli_delete_all(skip_id):
     """Delete all people (with skips)."""
     delete_all_people(list(skip_id))
 
-@cli.command(name="delete-fields")
+@cli.command(name="delete-field")
 @click.option("--field", required=True, help="Field name to delete data for.")
-def cli_delete_fields(field):
+def cli_delete_field(field):
     """Delete all data for a specific field."""
     delete_field_data(field)
 
