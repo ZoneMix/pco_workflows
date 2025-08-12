@@ -1,12 +1,11 @@
-# pco_tools/workflows/delete_all.py
 import click
 import time
-from pco_tools.api.people import get_all_people_ids
-from pco_tools.api.http import api_delete
+from pco_workflows.api import PeopleClient
 
 def delete_all_people(skip_ids):
+    client = PeopleClient()
     try:
-        people_ids = get_all_people_ids()
+        people_ids = client.get_all_people_ids()
         skip_set = set(skip_ids)
         to_delete = [pid for pid in people_ids if pid not in skip_set]
         total = len(to_delete)
@@ -22,7 +21,7 @@ def delete_all_people(skip_ids):
             return
         
         for i, pid in enumerate(to_delete, 1):
-            api_delete(f"people/{pid}")
+            client.delete(f"people/{pid}")
             click.echo(f"[{i}/{total}] Deleted person ID {pid}")
             time.sleep(0.2)
     except Exception as e:

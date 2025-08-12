@@ -1,13 +1,12 @@
-# pco_tools/workflows/delete_fields.py
 import click
-from pco_tools.api.people import get_field_definition_id, get_field_data
-from pco_tools.api.http import api_delete
+from pco_workflows.api import PeopleClient
 
 def delete_field_data(field_name):
+    client = PeopleClient()
     try:
-        field_id = get_field_definition_id(field_name)
+        field_id = client.get_field_definition_id(field_name)
         params = {"where[field_definition_id]": field_id}
-        field_data = get_field_data(params=params)
+        field_data = client.get_field_data(params=params)
         total = len(field_data)
         
         if total == 0:
@@ -21,7 +20,7 @@ def delete_field_data(field_name):
             return
         
         for i, entry in enumerate(field_data, 1):
-            api_delete(f"field_data/{entry['id']}")
+            client.delete(f"field_data/{entry['id']}")
             click.echo(f"[{i}/{total}] Deleted field data ID {entry['id']}")
     except Exception as e:
         click.echo(f"Error in delete_field_data: {e}", err=True)

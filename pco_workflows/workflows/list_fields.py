@@ -1,21 +1,23 @@
-# pco_tools/workflows/list_fields.py
 import click
-from pco_tools.api.people import get_field_definitions, BUILT_IN_FIELDS
+from pco_workflows.api import PeopleClient
+from pco_workflows.api.people import BUILT_IN_FIELDS
 
 def list_field_definitions():
+    client = PeopleClient()
     try:
-        custom_fields = get_field_definitions()
+        custom_fields = client.get_field_definitions()
         
         click.echo("Built-in Field Definitions:")
-        click.echo("{:<30} {:<20} {:<15}".format("Name", "Slug", "Data Type"))
+        click.echo("{:<10} {:<30} {:<20} {:<15} {:<10}".format("ID", "Name", "Slug", "Data Type", "Sequence"))
         click.echo("-" * 85)
-        # Sort built-in fields alphabetically by name for better UX
         for f in sorted(BUILT_IN_FIELDS, key=lambda x: x['attributes']['name']):
             attrs = f['attributes']
-            click.echo("{:<30} {:<20} {:<15}".format(
+            click.echo("{:<10} {:<30} {:<20} {:<15} {:<10}".format(
+                f.get('id', 'N/A'),
                 attrs['name'][:28] + '...' if len(attrs['name']) > 28 else attrs['name'],
                 attrs['slug'][:18] + '...' if len(attrs['slug']) > 18 else attrs['slug'],
                 attrs['data_type'],
+                attrs['sequence'] or 'N/A'
             ))
         
         click.echo("\nCustom Field Definitions:")
@@ -31,7 +33,7 @@ def list_field_definitions():
                     attrs['name'][:28] + '...' if len(attrs['name']) > 28 else attrs['name'],
                     attrs['slug'][:18] + '...' if len(attrs['slug']) > 18 else attrs['slug'],
                     attrs['data_type'],
-                    attrs['sequence'] or 'N/A'  # Fallback here too, though usually an int
+                    attrs['sequence'] or 'N/A'
                 ))
     except Exception as e:
         click.echo(f"Error listing field definitions: {e}", err=True)

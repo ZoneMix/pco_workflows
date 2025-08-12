@@ -7,8 +7,8 @@ A Python-based CLI repository for streamlined workflows with Planning Center Onl
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/ZoneMix/planning-center-python-workflows.git
-cd planning-center-python-workflows
+git clone https://github.com/ZoneMix/pco_workflows.git
+cd pco_workflows
 ```
 
 2. Install dependencies:

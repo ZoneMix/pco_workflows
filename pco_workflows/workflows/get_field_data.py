@@ -1,24 +1,24 @@
-# pco_tools/workflows/get_field_data.py
 import click
-from pco_tools.api.people import get_field_definition_id, get_field_data_by_definition, get_people, get_built_in_field_by_name
+from pco_workflows.api import PeopleClient
+from pco_workflows.api.people import get_built_in_field_by_name
 
 def get_field_definition_data(field_name):
+    client = PeopleClient()
     try:
         built_in_field = get_built_in_field_by_name(field_name)
         if built_in_field:
             slug = built_in_field['attributes']['slug']
             click.echo(f"Built-in field '{field_name}' (slug: {slug})")
-            people = get_people()
+            people = client.get_people()
             click.echo(f"Data for built-in field '{field_name}':")
             for person in people:
                 value = person['attributes'].get(slug, None)
                 person_id = person['id']
-                person_name = person['attributes'].get("name", None)
-                click.echo(f"Person ID: {person_id}, Person Name: {person_name}, Value: {value}")
+                click.echo(f"Person ID: {person_id}, Value: {value}")
         else:
-            field_id = get_field_definition_id(field_name)
+            field_id = client.get_field_definition_id(field_name)
             click.echo(f"Custom field definition ID for '{field_name}': {field_id}")
-            field_data = get_field_data_by_definition(field_id)
+            field_data = client.get_field_data_by_definition(field_id)
             click.echo(f"Data for custom field '{field_name}':")
             for entry in field_data:
                 value = entry['attributes']['value']

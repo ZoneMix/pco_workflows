@@ -1,12 +1,11 @@
-# pco_tools/cli.py
 import click
-from pco_tools.workflows.parse_authorized_pickups import parse_authorized_pickups
-from pco_tools.workflows.create_csv import create_import_csv
-from pco_tools.workflows.create_episode import create_publishing_episode
-from pco_tools.workflows.delete_all import delete_all_people
-from pco_tools.workflows.delete_fields import delete_field_data
-from pco_tools.workflows.get_field_data import get_field_definition_data
-from pco_tools.workflows.list_fields import list_field_definitions
+from pco_workflows.workflows.parse_authorized_pickups import parse_authorized_pickups
+from pco_workflows.workflows.create_csv import create_import_csv
+from pco_workflows.workflows.create_episode import create_publishing_episode
+from pco_workflows.workflows.delete_all import delete_all_people
+from pco_workflows.workflows.delete_field import delete_field_data
+from pco_workflows.workflows.get_field_data import get_field_definition_data
+from pco_workflows.workflows.list_fields import list_field_definitions
 
 @click.group()
 def cli():
@@ -15,7 +14,7 @@ def cli():
 @cli.command(name="parse-authorized-pickups")
 @click.option("--person", required=True, help="Name of the specific person to process authorized pickups for.")
 def cli_parse_authorized_pickups(person):
-    """Clean and parse authorized pickups."""
+    """Parse authorized pickups for a specific person."""
     parse_authorized_pickups(person)
 
 @cli.command(name="create-csv")
@@ -37,9 +36,14 @@ def cli_delete_all(skip_id):
     """Delete all people (with skips)."""
     delete_all_people(list(skip_id))
 
-@cli.command(name="delete-fields")
+@cli.command(name="delete-birthdays")
+def cli_delete_birthdays():
+    """Set all birthdays to null."""
+    delete_birthdays()
+
+@cli.command(name="delete-field")
 @click.option("--field", required=True, help="Field name to delete data for.")
-def cli_delete_fields(field):
+def cli_delete_field(field):
     """Delete all data for a specific field."""
     delete_field_data(field)
 

@@ -1,4 +1,3 @@
-# pco_tools/api/auth.py
 import os
 from requests.auth import HTTPBasicAuth
 from dotenv import load_dotenv
