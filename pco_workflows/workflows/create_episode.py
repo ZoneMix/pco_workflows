@@ -10,6 +10,7 @@ def create_publishing_episode(title, channel_id=None, channel_name=None, art=Non
             channel_id = client.get_first_channel_id()
         attributes = {
             "channel_id": channel_id,
+            "title": title
         }
         if art:
             attributes["art"] = art
@@ -29,7 +30,7 @@ def create_publishing_episode(title, channel_id=None, channel_name=None, art=Non
             attributes["library_audio_url"] = library_audio_url
         if library_video_url:
             attributes["library_video_url"] = library_video_url
-        response = client.create_episode(title, attributes=attributes)
+        response = client.create_episode(attributes=attributes)
         click.echo(f"Created episode: {response}")
     except Exception as e:
         click.echo(f"Error in create_publishing_episode: {e}", err=True)

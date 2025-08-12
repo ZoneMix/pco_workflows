@@ -22,15 +22,9 @@ class PublishingClient(BaseClient):
             raise ValueError("No channels found.")
         return channels[0]["id"]
 
-    def create_episode(self, title, channel_id, attributes=None):
+    def create_episode(self, attributes=None):
         payload = {
-            "data": {
-                "attributes": {
-                    "title": title,
-                    "channel_id": channel_id,
-                    **(attributes or {})
-                }
-            }
+            "data": { "attributes": attributes }
         }
         return self.post("episodes", payload).get("data")
 
