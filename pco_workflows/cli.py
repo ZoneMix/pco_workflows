@@ -15,7 +15,7 @@ def cli():
 @click.option("--person", required=True, help="Name of the specific person to process authorized pickups for.")
 def cli_parse_authorized_pickups(person):
     """Parse authorized pickups for a specific person."""
-    clean_authorized_pickups(person)
+    parse_authorized_pickups(person)
 
 @cli.command(name="create-csv")
 @click.option("--input", required=True, help="Input CSV file path.")
