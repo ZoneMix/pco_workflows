@@ -15,6 +15,8 @@ cd pco_workflows
 
 ```bash
 python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
 ```
 
 3. Set environment variables for PCO credentials (or use a `.env` file in the project root):
